@@ -27,4 +27,4 @@ These instructions will help you get a copy of these images up and running on yo
 
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/ernst-fastl/docker-development-kits.git
+   git clone https://github.com/ernst-fastl/dockerized-dev-tools.git
