@@ -1,0 +1,28 @@
+# SSH server and shell utilities
+openssh-server bash-completion bash-doc zsh zsh-syntax-highlighting
+
+# Essential system tools
+man-db procps file htop lsof
+
+# Development tools
+gcc build-essential vim cmake gdb make
+
+# Git Version Control
+git git-flow gh git-lfs pre-commit tig git-extras git-secrets
+
+# Text and search utilities
+jq mlocate wget fzf ack ripgrep
+
+# Security and certificates
+ca-certificates curl gnupg openssl fail2ban
+
+# Network tools
+dhcping iputils-ping iputils-tracepath iptraf-ng httpie nmap netcat-traditional traceroute
+
+# Python Development Essentials
+build-essential libffi-dev libssl-dev zlib1g-dev liblzma-dev libreadline-dev libsqlite3-dev
+software-properties-common python-is-python3 python3-pip python3-argcomplete python3-autopep8 python3-pretty-yaml 
+python3-flake8 python3-venv virtualenv tox black isort flake8 mypy pylint sphinx
+
+# Ruby environment
+ruby-full ruby-dev rubygems bundler rails
