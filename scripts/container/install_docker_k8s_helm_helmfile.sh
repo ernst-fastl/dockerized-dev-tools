@@ -16,4 +16,6 @@ LATEST_HELMFILE=$(curl --silent "https://api.github.com/repos/roboll/helmfile/re
 wget "https://github.com/roboll/helmfile/releases/download/${LATEST_HELMFILE}/helmfile_linux_amd64"
 chmod +x helmfile_linux_amd64 && mv helmfile_linux_amd64 /usr/local/bin/helmfile
 
+groupmod -g 1001 docker # match the group id of docker destkop for DooD
+
 usermod -aG docker user
