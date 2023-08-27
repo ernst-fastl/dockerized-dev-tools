@@ -6,8 +6,6 @@ if [ -z "$IMAGE_BUILD_DIR" ]; then
   exit 1
 fi
 
-
-
 set -x 
 
 docker tag "$IMAGE_NAME" "$LATEST_TAG"

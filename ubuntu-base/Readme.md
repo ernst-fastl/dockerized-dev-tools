@@ -36,7 +36,7 @@ This will start the container with an interactive Bash shell.
 
 The image includes custom scripts located in the `/opt/devbox` directory. These are copied from the local `scripts/` directory during the build process.
 
-- **`apt-clean-install.sh`**: This script updates, upgrades, installs APT packages, and cleans up unused files. It is intended to be used with a RUN command in a Dockerfile to create a clean layer.
+- **`apt_clean_install.sh`**: This script updates, upgrades, installs APT packages, and cleans up unused files. It is intended to be used with a RUN command in a Dockerfile to create a clean layer.
 - **`brew-clean-install.sh`**: This script updates, upgrades, installs Homebrew packages, and cleans up unused files. It is intended to be used with a RUN command in a Dockerfile to create a clean layer.
 
 Feel free to modify or add additional scripts as needed for your development workflow.

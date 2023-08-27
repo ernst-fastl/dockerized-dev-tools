@@ -2,9 +2,9 @@ FROM ernst-fastl/devbox-helm
 
 COPY /scripts/container/* .
 
-RUN ./install-java-devtools.sh && \
-./install-node-devtools.sh && \
-./install-golang-devtools.sh  && \
-./install-python-devtools.sh && \
-./install-perl-devtools.sh && \
-./install-ruby-devtools.sh 
+RUN ./install_java_devtools.sh && \
+./install_node_devtools.sh && \
+./install_golang_devtools.sh  && \
+./install_python_devtools.sh && \
+./install_perl_devtools.sh && \
+./install_ruby_devtools.sh 

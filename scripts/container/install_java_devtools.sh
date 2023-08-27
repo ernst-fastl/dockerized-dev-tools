@@ -3,7 +3,7 @@
 set -e  # Exit on error
 
 # Install Java
-./apt-clean-install.sh default-jdk scala leiningen maven gradle
+./apt_clean_install.sh default-jdk scala leiningen maven gradle
 
 # Install SDKMAN
 curl -s https://get.sdkman.io | bash

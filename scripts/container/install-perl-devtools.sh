@@ -1,7 +1,0 @@
-#!/bin/bash
-
-#!/bin/bash
-
-set -e  # Exit on error
-
-./apt-clean-install.sh perl perl-base perl-modules build-essential cpanminus

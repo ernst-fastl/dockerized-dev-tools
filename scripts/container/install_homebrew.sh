@@ -8,7 +8,7 @@ if [ "$(id -u)" != "0" ]; then
 fi
 
 # Install curl and git via custom script
-/opt/devbox/apt-clean-install.sh build-essential procps curl file git ca-certificates
+/opt/devbox/apt_clean_install.sh build-essential procps curl file git ca-certificates
 
 # Set path to the Homebrew installation script
 INSTALL_SCRIPT="/opt/devbox/downloaded-homebrew-install.sh"
