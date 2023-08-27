@@ -1,18 +1,47 @@
 #!/bin/bash
 
-set -e  # Exit if any command fails
+set -e # Exit if any command fails
 
-#This script updates, upgrades, installs packages, and cleans up unused files on an Ubuntu system.
+show_help() {
+    echo "Usage: $0 [OPTION]... [PACKAGE]..."
+    echo "Options:"
+    echo "  -h, --help     Show help"
+    echo "  -s, --skip-update  Skip updating APT package list"
+    echo "  -c, --skip-cleanup  Skip cleanup after installation"
+}
 
-# Ensure script has been called with at least one argument
+SKIP_UPDATE=0
+SKIP_CLEANUP=0
+
+# Parse options
+while :; do
+    case "$1" in
+    -h | --help)
+        show_help
+        exit
+        ;;
+    -s | --skip-update)
+        SKIP_UPDATE=1
+        ;;
+    -c | --skip-cleanup)
+        SKIP_CLEANUP=1
+        ;;
+    *)
+        break
+        ;;
+    esac
+    shift
+done
+
+# Proceed only if arguments are left after option parsing
 if [ $# -eq 0 ]; then
-    echo "No packages provided. Usage: $0 package1 [package2 ...] [file1.txt ...]"
+    echo "No packages provided. Use -h for help."
     exit 1
 fi
 
-# Check if script is running with root privileges
+# Verify root privileges
 if [ "$(id -u)" != "0" ]; then
-    echo "This script must be run as root"
+    echo "Must be run as root."
     exit 1
 fi
 
@@ -27,19 +56,17 @@ for arg in "$@"; do
                 continue
             fi
             # Split line into package names and add to array
-            read -ra pkgs <<< "$line"
+            read -ra pkgs <<<"$line"
             for pkg in "${pkgs[@]}"; do
                 packages+=("$pkg")
             done
-        done < "$arg"
+        done <"$arg"
     else
         # Collect package
         packages+=("$arg")
     fi
 done
 
-# Update the package list
-echo "Updating APT package list"
 echo -e "\n--- Updating APT package list: ---\n"
 apt update -yq
 
@@ -51,16 +78,20 @@ echo -e "\n---\n"
 # Set DEBIAN_FRONTEND to noninteractive to suppress prompts
 export DEBIAN_FRONTEND=noninteractive
 
-# Install APT packages and exit with an error if any installation fails
-if ! apt-get install -yq --no-install-recommends "${packages[@]}"; then
-    echo "Error: APT package installation failed"
-    exit 1
+# Update, if not skipped
+if [ "$SKIP_UPDATE" -eq 0 ]; then
+    echo "--- Updating APT ---"
+    apt update -yq
 fi
 
-# Cleanup
+# Installation
+echo "--- Installing Packages ---"
+apt-get install -yq --no-install-recommends "${packages[@]}"
 
-echo -e "\n--- Cleaning up ---\n"
-
-apt clean -q
-apt autoremove -yq
-rm -rf /var/lib/apt/lists/*
+# Cleanup, if not skipped
+if [ "$SKIP_CLEANUP" -eq 0 ]; then
+    echo -e "\n--- Cleaning up Apt package lists, autoremove etc. ---\n"
+    apt clean -q
+    apt autoremove -yq
+    rm -rf /var/lib/apt/lists/*
+fi
