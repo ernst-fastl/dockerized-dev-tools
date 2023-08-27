@@ -1,11 +1,7 @@
 #!/bin/bash
 
-# Build the ubuntu-base image
-cd ubuntu-base
-../build-scripts/build-image.sh
-cd ..
+set -ex  # Exit on error & Echo all commands
 
-# Build the devbox-base image
-cd devbox-base
-../build-scripts/build-image.sh
-cd ..
+./build.sh "$@" ubuntu-base
+./build.sh "$@" devbox-base
+./build.sh "$@" devbox-helm

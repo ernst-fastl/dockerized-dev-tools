@@ -1,6 +1,6 @@
 FROM ernst-fastl/ubuntu-base
 
+COPY /scripts/container/* .
+COPY /devbox-base/apt-packages.txt ./devbox-base-apt-packages.txt
 
-COPY ./apt-packages.txt /opt/devbox/devbox-base-apt-packages.txt
-
-RUN /opt/devbox/apt-clean-install.sh /opt/devbox/devbox-base-apt-packages.txt 
+RUN ./apt-clean-install.sh devbox-base-apt-packages.txt 
