@@ -46,8 +46,11 @@ echo -e "\n--- Installing APT packages: ---\n"
 printf '%s\n' "${packages[@]}"
 echo -e "\n---\n"
 
+# Set DEBIAN_FRONTEND to noninteractive to suppress prompts
+export DEBIAN_FRONTEND=noninteractive
+
 # Install APT packages and exit with an error if any installation fails
-if ! apt-get install -yq "${packages[@]}"; then
+if ! apt-get install -yq --no-install-recommends "${packages[@]}"; then
     echo "Error: APT package installation failed"
     exit 1
 fi

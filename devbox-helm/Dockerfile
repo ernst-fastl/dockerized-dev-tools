@@ -1,8 +1,8 @@
 FROM ernst-fastl/devbox-base
 
 
-COPY ./brew-packages.txt /opt/devbox/devbox-helm-brew-packages.txt
-COPY ./apt-packages.txt /opt/devbox/devbox-helm-apt-packages.txt
+COPY ./install_docker_k8s_helm_helmfile.sh /opt/devbox/
 
-RUN /opt/devbox/apt-clean-install.sh /opt/devbox/devbox-base-helm-packages.txt &&\
-/opt/devbox/brew-clean-install.sh /opt/devbox/devbox-helm-brew-packages.txt
+WORKDIR /opt/devbox
+
+RUN ./install_docker_k8s_helm_helmfile.sh

@@ -11,7 +11,7 @@ gcc build-essential vim cmake gdb make
 git git-flow gh git-lfs pre-commit tig git-extras git-secrets
 
 # Text and search utilities
-jq mlocate wget fzf ack ripgrep
+jq mlocate wget fzf 
 
 # Security and certificates
 ca-certificates curl gnupg openssl fail2ban
