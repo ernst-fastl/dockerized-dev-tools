@@ -10,9 +10,9 @@ fi
 # Start a login shell in the container
 set -x
 docker run -it --rm \
-    --name $(basename $WORKDIR) \
-    --hostname $(basename $WORKDIR) \
-    -v $WORKDIR/..:/workspace \
+    --name $IMAGE_BASE_NAME \
+    --hostname $IMAGE_BASE_NAME \
+    -v $REPO_ROOT:/workspace \
     -w /workspace \
     --entrypoint /bin/bash \
     $IMAGE_NAME -l
