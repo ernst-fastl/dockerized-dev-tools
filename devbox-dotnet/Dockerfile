@@ -7,5 +7,4 @@ RUN ./install_java_devtools.sh && \
 ./install_golang_devtools.sh  && \
 ./install_python_devtools.sh && \
 ./install_perl_devtools.sh && \
-./install_dotnet_tools.sh && \
 ./install_ruby_devtools.sh 

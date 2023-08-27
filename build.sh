@@ -52,7 +52,7 @@ while :; do
 done
 
 # Call init_environment script and check for errors
-bash "init_environment.sh" "$IMAGE_BUILD_DIR" || { echo "init_environment failed"; show_help; exit 1; }
+. "$SCRIPTS_DIR/init_environment.sh" "$IMAGE_BUILD_DIR" || { echo "init_environment failed"; show_help; exit 1; }
 
 # Execute scripts conditionally
 [ "$SKIP_BUILD" != "1" ] && execute_script "build_image"

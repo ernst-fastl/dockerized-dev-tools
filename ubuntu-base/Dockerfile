@@ -21,6 +21,6 @@ WORKDIR /opt/devbox
 COPY /scripts/container/* .
 RUN chmod +x *.sh
 
-RUN ./install-homebrew.sh
+RUN ./install_homebrew.sh
 
 ENTRYPOINT ["/bin/bash", "--login"]
