@@ -1,0 +1,26 @@
+{
+	"name": "My Helm Box",
+	"image": "efastl/devbox-helm:latest",
+	"remoteUser": "user",
+	"mounts": [
+		"source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind"
+	],
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"ms-azuretools.vscode-docker",
+				"GitHub.copilot",
+				"GitHub.copilot-chat",
+				"Tim-Koehler.helm-intellisense",
+				"lunuan.kubernetes-templates",
+				"DavidAnson.vscode-markdownlint",
+				"raynigon.nginx-formatter",
+				"esbenp.prettier-vscode",
+				"mechatroner.rainbow-csv",
+				"redhat.vscode-yaml",
+				"timonwong.shellcheck",
+				"foxundermoon.shell-format"
+			]
+		}
+	}
+}
