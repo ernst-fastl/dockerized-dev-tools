@@ -15,3 +15,5 @@ chmod 700 get_helm.sh && ./get_helm.sh
 LATEST_HELMFILE=$(curl --silent "https://api.github.com/repos/roboll/helmfile/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
 wget "https://github.com/roboll/helmfile/releases/download/${LATEST_HELMFILE}/helmfile_linux_amd64"
 chmod +x helmfile_linux_amd64 && mv helmfile_linux_amd64 /usr/local/bin/helmfile
+
+usermod -aG docker user

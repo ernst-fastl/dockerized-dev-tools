@@ -1,4 +1,4 @@
-FROM ernst-fastl/devbox-base
+FROM efastl/devbox-base
 
 COPY /scripts/container/* .
 

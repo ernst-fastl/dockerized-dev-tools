@@ -1,4 +1,4 @@
-FROM ernst-fastl/ubuntu-base
+FROM efastl/ubuntu-base
 
 COPY /scripts/container/* .
 COPY /devbox-base/apt-packages.txt ./devbox-base-apt-packages.txt

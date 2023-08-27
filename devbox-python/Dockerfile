@@ -1,4 +1,4 @@
-FROM ernst-fastl/devbox-helm
+FROM efastl/devbox-helm
 
 COPY /scripts/container/* .
 

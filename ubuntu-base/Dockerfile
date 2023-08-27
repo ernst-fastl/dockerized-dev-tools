@@ -4,6 +4,16 @@ RUN yes | unminimize
 
 RUN apt update -y && apt upgrade -y && apt autoremove -y 
 
+
+RUN mkdir -p /opt/devbox
+
+WORKDIR /opt/devbox
+
+COPY /scripts/container/* .
+RUN chmod +x *.sh
+
+RUN ./apt_clean_install.sh sudo
+
 # root shell to bash
 RUN chsh --shell /bin/bash root
 
@@ -13,13 +23,6 @@ groupmod -n user ubuntu && \
 usermod -d /home/user -m user && \
 usermod -c "Main Container User" user && \
 echo "user ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
-
-RUN mkdir -p /opt/devbox
-
-WORKDIR /opt/devbox
-
-COPY /scripts/container/* .
-RUN chmod +x *.sh
 
 RUN ./install_homebrew.sh
 
