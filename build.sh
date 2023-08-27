@@ -43,9 +43,12 @@ init_environment() {
 
   IMAGE_BASE_NAME=$(basename $IMAGE_BUILD_DIR)  
 
+  # Tag the Docker image with the latest tag
+  LATEST_TAG="efastl/$IMAGE_BASE_NAME:latest"
+
   LOG_DIR="$REPO_ROOT/build-logs"
   LOG_FILE="$LOG_DIR/$(date +%Y-%m-%d)-$IMAGE_BASE_NAME.log"
-  IMAGE_NAME="ernst-fastl/$IMAGE_BASE_NAME:$(cat $REPO_ROOT/version.txt)-nightly-$(date +%Y-%m-%d)"
+  IMAGE_NAME="efastl/$IMAGE_BASE_NAME:$(cat $REPO_ROOT/version.txt)-nightly-$(date +%Y-%m-%d)"
 
   mkdir -p "$LOG_DIR"
 

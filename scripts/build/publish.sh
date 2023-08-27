@@ -24,4 +24,5 @@ echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
 # Push the Docker image to Docker Hub
 set -x
 docker push "$IMAGE_NAME"
+docker push "$LATEST_TAG"
 set +x

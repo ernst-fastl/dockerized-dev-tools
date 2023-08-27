@@ -6,8 +6,7 @@ if [ -z "$IMAGE_BUILD_DIR" ]; then
   exit 1
 fi
 
-# Tag the Docker image with the latest tag
-LATEST_TAG="ernst-fastl/$IMAGE_BASE_NAME:latest"
+
 
 set -x 
 
