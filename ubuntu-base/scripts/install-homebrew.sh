@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e  # Exit if any command fails
 
 # Check if script is running as root
 if [ "$(id -u)" != "0" ]; then
@@ -7,10 +8,10 @@ if [ "$(id -u)" != "0" ]; then
 fi
 
 # Install curl and git via custom script
-/opt/devbox/apt-clean-install.sh curl git
+/opt/devbox/apt-clean-install.sh build-essential procps curl file git ca-certificates
 
 # Set path to the Homebrew installation script
-INSTALL_SCRIPT="/opt/devbox/homebrew-head-install.sh"
+INSTALL_SCRIPT="/opt/devbox/downloaded-homebrew-install.sh"
 
 # Download Homebrew installation script
 curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh -o "$INSTALL_SCRIPT"
@@ -21,8 +22,5 @@ export NONINTERACTIVE=1
 # Run Homebrew installation script
 /bin/bash "$INSTALL_SCRIPT"
 
-# Move Homebrew installation to global path
-mv /home/linuxbrew/.linuxbrew /usr/local/
-
 # Add brew shellenv command to /etc/profile
-echo 'eval "$(/usr/local/bin/brew shellenv)"' >> /etc/profile
+echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> /etc/profile

@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e  # Exit if any command fails
+
 #This script updates, upgrades, installs packages, and cleans up unused files using homebrew.
 
 # Ensure script has been called with at least one argument
