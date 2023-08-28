@@ -32,17 +32,44 @@ for arg in "$@"; do
   esac
 done
 
+# Declare associative array to store statuses
+declare -A status
+
+# Existing execute_build function
 execute_build() {
   local image_name=$1
-  shift  # Remove the first argument
-  ./build.sh "${subscript_options[@]}" "$image_name" 
+  shift
+  ./build.sh "${subscript_options[@]}" "$image_name"
   local exit_code=$?
   status["$image_name"]=$exit_code
-  if [ $exit_code -ne 0 ]; then
-    echo "Failed: $image_name"
+}
+
+# New function to build multiple images in parallel
+build_images_parallel() {
+  for image_name in "$@"; do
+    execute_build "$image_name" &
+  done
+
+  # Wait for all background jobs to finish
+  wait
+
+  # Check statuses and exit if any failed
+  local exit_script=0
+  for image in "${!status[@]}"; do
+    if [ ${status[$image]} -eq 0 ]; then
+      echo "Success: $image"
+    else
+      echo "Failed: $image"
+      exit_script=1
+    fi
+  done
+
+  if [ $exit_script -ne 0 ]; then
     exit 1
   fi
 }
+
+# Stage 1 - Base images
 
 if [ "$skip_all_base" = false ]; then
   [ "$skip_ubuntu_base" = false ] && execute_build "ubuntu-base"
@@ -50,24 +77,13 @@ if [ "$skip_all_base" = false ]; then
   [ "$skip_devbox_helm" = false ] && execute_build "devbox-helm"
 fi
 
-# Devbox images - parallel execution
-execute_build "devbox-python" &
-execute_build "devbox-ruby" &
-execute_build "devbox-perl" &
-execute_build "devbox-node" &
-execute_build "devbox-java" &
-execute_build "devbox-dotnet" &
-execute_build "devbox-go" &
-execute_build "devbox-ultimate" &
+# Stage 2 - Scripting images
 
-wait
+set +e  # Don't exit on error of one subprocess
 
-# Summary
-echo "Summary of build statuses:"
-for key in "${!status[@]}"; do
-  if [ ${status[$key]} -eq 0 ]; then
-    echo "$key: SUCCEEDED"
-  else
-    echo "$key: FAILED"
-  fi
-done
+build_images_parallel  "devbox-python" "devbox-ruby" "devbox-perl" "devbox-node" "devbox-powershell" "devbox-scripting"
+
+# Stage 3 - Larger high-level images
+
+build_images_parallel "devbox-java" "devbox-dotnet" "devbox-go" "devbox-ultimate"
+

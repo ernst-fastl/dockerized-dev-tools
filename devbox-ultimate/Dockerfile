@@ -1,11 +1,11 @@
-FROM efastl/devbox-helm
+FROM efastl/devbox-scripting
 
 COPY /scripts/container/* .
 
-RUN ./install_java_devtools.sh && \
-./install_node_devtools.sh && \
-./install_golang_devtools.sh  && \
-./install_python_devtools.sh && \
-./install_perl_devtools.sh && \
-./install_dotnet_tools.sh && \
-./install_ruby_devtools.sh 
+# these will be very large layers each, so we choose to keep them separate
+
+RUN ./install_java_devtools.sh 
+
+RUN ./install_golang_devtools.sh 
+
+RUN ./install_dotnet_devtools.sh
