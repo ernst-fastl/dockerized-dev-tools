@@ -11,5 +11,9 @@ fi
 set -x 
 
 docker build --no-cache -t "$IMAGE_NAME" -f "$IMAGE_BUILD_DIR/Dockerfile" $REPO_ROOT 2>&1 | tee -a "$LOG_FILE"
+if [ ${PIPESTATUS[0]} -ne 0 ]; then
+  echo "Docker build failed for $IMAGE_NAME." >&2
+  exit 1
+fi
 
 set +x

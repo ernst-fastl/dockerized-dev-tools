@@ -1,62 +1,78 @@
 #!/bin/bash
 
-set -e  # Exit on error
+set +e # Exit on error
 
-skip_all_base=false
-skip_ubuntu_base=false
-skip_devbox_base=false
-skip_devbox_helm=false
+show_help() {
+  echo "Usage: $0 [OPTION]..."
+  echo "Options:"
+  echo "  -h, --help        Show help"
+  echo "  -r, --run         Run bash in image"
+  echo "  -p, --publish     Publish to Docker Hub"
+  echo "  -s, --skip-build  Skip building image"
+  echo "  -t, --skip-test   Skip running tests"
+  echo "  -i, --skip-image  Skip building specific image (can be used multiple times)"
+}
+
 
 # Create an array to hold options to be passed to subscripts
-subscript_options=()
+build_sh_options=()
+
+# Create an array to hold images to skip
+SKIP_IMAGES=()
 
 # Parse options
-for arg in "$@"; do
-  case $arg in
-    --skip-all)
-      skip_all_base=true
+while (( "$#" )); do
+  case "$1" in
+    -h|--help)
+      show_help
+      exit 0
       ;;
-    --skip-ubuntu)
-      skip_ubuntu_base=true
-      ;;
-    --skip-devbox)
-      skip_devbox_base=true
-      ;;
-    --skip-helm)
-      skip_devbox_helm=true
+    -i|--skip-image)
+      shift
+      SKIP_IMAGES+=("$1")
+      shift
       ;;
     *)
-      # Unknown options are added to subscript_options array
-      subscript_options+=("$arg")
+      # unknown options are passed to build.sh
+      build_sh_options+=("$1")
+      shift
       ;;
   esac
 done
 
+
+echo "Parsed SKIP_IMAGES: ${SKIP_IMAGES[*]}"
+echo "Parsed build_sh_options: ${build_sh_options[*]}"
+
 # Declare associative array to store statuses
 declare -A status
 
-# Existing execute_build function
+# Function to check if an element is in an array
+containsElement() {
+  local element
+  for element in "${@:2}"; do [[ "$element" == "$1" ]] && return 0; done
+  return 1
+}
+
+# build a single docker image
 execute_build() {
   local image_name=$1
   shift
-  ./build.sh "${subscript_options[@]}" "$image_name"
-  local exit_code=$?
-  status["$image_name"]=$exit_code
+  if containsElement "$image_name" "${SKIP_IMAGES[@]}"; then
+    echo "Skipped: $image_name"
+  else
+    echo "Starting build of: $image_name"
+    ./build.sh "${build_sh_options[@]}" "$image_name"
+    local exit_code=$?
+    status["$image_name"]=$exit_code
+  fi
 }
 
-# New function to build multiple images in parallel
-build_images_parallel() {
-  for image_name in "$@"; do
-    execute_build "$image_name" &
-  done
-
-  # Wait for all background jobs to finish
-  wait
-
-  # Check statuses and exit if any failed
+# Function to check statuses and exit if any failed
+check_statuses_and_exit() {
   local exit_script=0
   for image in "${!status[@]}"; do
-    if [ ${status[$image]} -eq 0 ]; then
+    if [ "${status[$image]}" -eq 0 ]; then
       echo "Success: $image"
     else
       echo "Failed: $image"
@@ -69,21 +85,31 @@ build_images_parallel() {
   fi
 }
 
-# Stage 1 - Base images
+# build multiple images in parallel wait for all to finish
+build_images_parallel() {
+  for image_name in "$@"; do
+    execute_build "$image_name" &
+  done
 
-if [ "$skip_all_base" = false ]; then
-  [ "$skip_ubuntu_base" = false ] && execute_build "ubuntu-base"
-  [ "$skip_devbox_base" = false ] && execute_build "devbox-base"
-  [ "$skip_devbox_helm" = false ] && execute_build "devbox-helm"
-fi
+  # Wait for all background jobs to finish
+  wait
 
-# Stage 2 - Scripting images
+  check_statuses_and_exit
+}
 
-set +e  # Don't exit on error of one subprocess
+echo "Stage 1: Starting build of base images"
 
-build_images_parallel  "devbox-python" "devbox-ruby" "devbox-perl" "devbox-node" "devbox-powershell" "devbox-scripting"
+execute_build "ubuntu-base"
+execute_build "devbox-base"
+execute_build "devbox-helm"
 
-# Stage 3 - Larger high-level images
+
+echo "Stage 2: parallel build of Scripting images"
+
+set +e # Don't exit on error of one subprocess
+
+build_images_parallel "devbox-python" "devbox-ruby" "devbox-perl" "devbox-node" "devbox-powershell" "devbox-scripting"
+
+echo "Stage 3: parallel build of larger high-level images"
 
 build_images_parallel "devbox-java" "devbox-dotnet" "devbox-go" "devbox-ultimate"
-
