@@ -18,3 +18,21 @@ npm install -g eslint typescript
 
 # Yarn package manager
 npm install -g yarn
+
+# Gulp
+sudo npm install -g gulp
+
+# Grunt
+sudo npm install -g grunt
+
+# Webpack
+sudo npm install -g webpack webpack-cli
+
+# Vue CLI
+sudo npm install -g @vue/cli
+
+# Ember CLI
+sudo npm install -g ember-cli
+
+# Ionic CLI
+sudo npm install -g @ionic/cli

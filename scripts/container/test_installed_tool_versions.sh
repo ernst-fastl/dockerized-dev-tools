@@ -6,11 +6,13 @@ failed_commands=()
 check_version() {
   local tool=$1
   local command=$2
-  version_output=$($command 2>&1)
-  if [ $? -eq 0 ]; then
+  # Extract the command name without arguments
+  local cmd_name=$(echo "$command" | awk '{print $1}')
+  if command -v "$cmd_name" &> /dev/null; then
+    version_output=$($command 2>&1)
     echo "$tool Version: $version_output"
   else
-    echo "$tool Command Error: $version_output"
+    echo "$tool Command Error: Not Installed"
     failed_commands+=("$tool")
   fi
 }
