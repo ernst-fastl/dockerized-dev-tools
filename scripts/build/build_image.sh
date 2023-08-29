@@ -27,9 +27,9 @@ done
 build_docker() {
   echo "Building Docker image $IMAGE_NAME with Dockerfile $IMAGE_BUILD_DIR/Dockerfile"
   if [ $verbose -eq 1 ]; then
-    docker build --no-cache -t "$IMAGE_NAME" -f "$IMAGE_BUILD_DIR/Dockerfile" $REPO_ROOT 2>&1 | tee -a "$LOG_FILE"
+    docker build --no-cache=true -t "$IMAGE_NAME" -f "$IMAGE_BUILD_DIR/Dockerfile" $REPO_ROOT 2>&1 | tee -a "$LOG_FILE"
   else
-    docker build --no-cache -t "$IMAGE_NAME" -f "$IMAGE_BUILD_DIR/Dockerfile" $REPO_ROOT >> "$LOG_FILE" 2>&1
+    docker build --no-cache=true -t "$IMAGE_NAME" -f "$IMAGE_BUILD_DIR/Dockerfile" $REPO_ROOT >> "$LOG_FILE" 2>&1
   fi
 
   if [ "${PIPESTATUS[0]}" -ne 0 ]; then

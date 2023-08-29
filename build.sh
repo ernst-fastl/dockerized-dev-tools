@@ -54,6 +54,8 @@ done
 # Call init_environment script and check for errors
 . "$SCRIPTS_DIR/init_environment.sh" "$IMAGE_BUILD_DIR" || { echo "init_environment failed"; show_help; exit 1; }
 
+echo "$(date '+%Y-%m-%d %H:%M:%S') Building image $IMAGE_NAME" > "$LOG_FILE"
+
 # Execute scripts conditionally
 [ "$SKIP_BUILD" != "1" ] && execute_script "build_image"
 [ "$SKIP_TEST" != "1" ] && execute_script "run_tests"

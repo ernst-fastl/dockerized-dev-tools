@@ -6,15 +6,17 @@ set -e  # Exit on error
 
 ./apt_clean_install.sh wget apt-transport-https software-properties-common
 
-# Add Microsoft repository
-wget -q "https://packages.microsoft.com/config/ubuntu/$(lsb_release -rs)/packages-microsoft-prod.deb"
+# Import Microsoft repository key
+wget -q https://packages.microsoft.com/keys/microsoft.asc -O- | sudo apt-key add -
 
-sudo dpkg -i packages-microsoft-prod.deb
-rm packages-microsoft-prod.deb
+# Add Microsoft Package Feed
+sudo add-apt-repository "deb [arch=amd64] https://packages.microsoft.com/ubuntu/$(lsb_release -rs)/prod $(lsb_release -cs) main"
+
+# Update package list again
+sudo apt-get update
 
 # Install PowerShell
-
-./apt_clean_install.sh powershell
+sudo apt-get install -y powershell
 
 # Install Pester for testing
 pwsh -Command 'Install-Module -Name Pester -Force -SkipPublisherCheck'
