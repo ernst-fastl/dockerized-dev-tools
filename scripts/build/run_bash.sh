@@ -8,7 +8,6 @@ if [ -z "$IMAGE_BUILD_DIR" ]; then
 fi
 
 # Start a login shell in the container
-set -x
 docker run -it --rm \
     --name $IMAGE_BASE_NAME \
     --hostname $IMAGE_BASE_NAME \
@@ -16,5 +15,3 @@ docker run -it --rm \
     -w /workspace \
     --entrypoint /bin/bash \
     $IMAGE_NAME -l
-
-set +x

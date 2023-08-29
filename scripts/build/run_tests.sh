@@ -9,14 +9,15 @@ fi
 
 
 # Run a shell command in the Docker container and verify that it echoes the string
-set -x
+
+TEST_SCRIPT="/opt/devbox/test_$IMAGE_BASE_NAME.sh" 
+
+echo "Running test script $TEST_SCRIPT"
 
 docker run --rm \
-    --name $(basename $(pwd)) \
-    --hostname $(basename $(pwd)) \
+    --name $IMAGE_BASE_NAME \
+    --hostname $IMAGE_BASE_NAME \
     --entrypoint "/bin/bash" \
-    "$IMAGE_NAME" -c 'echo "Hello World"' | grep -q "Hello World"
-
-set +x
+    "$IMAGE_NAME" -c "$TEST_SCRIPT" 
 
 echo "Test passed"

@@ -15,7 +15,7 @@ SCRIPTS_DIR=$(git rev-parse --show-toplevel)/scripts/build
 
 execute_script() {
   SCRIPT="$1"
-  echo "Executing $SCRIPTS_DIR/$SCRIPT.sh"
+  echo "Executing $SCRIPTS_DIR/$SCRIPT.sh for image $IMAGE_NAME"
   bash "$SCRIPTS_DIR/$SCRIPT.sh" || { echo "$SCRIPT failed"; exit 1; }
 }
 
@@ -62,4 +62,4 @@ execute_script "tag_image"
 [ "$RUN_BASH" == "1" ] && execute_script "run_bash"
 [ "$PUBLISH" == "1" ] && execute_script "publish"
 
-echo "All tasks completed."
+echo "Build successfull for $IMAGE_NAME."

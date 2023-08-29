@@ -1,6 +1,9 @@
 #!/bin/bash
 
+# Initialize log directory and variables
 REPO_ROOT=$(git rev-parse --show-toplevel)
+source "$REPO_ROOT/scripts/build/init_log_dir.sh"
+
 CLEAN_ARG=$(echo "$1" | sed 's:/*$::')
 
 if [ -z "$CLEAN_ARG" ]; then
@@ -21,11 +24,11 @@ fi
 
 IMAGE_BASE_NAME=$(basename $IMAGE_BUILD_DIR)
 LATEST_TAG="efastl/$IMAGE_BASE_NAME:latest"
-LOG_DIR="$REPO_ROOT/build-logs"
+
 LOG_FILE="$LOG_DIR/$(date +%Y-%m-%d)-$IMAGE_BASE_NAME.log"
 IMAGE_NAME="efastl/$IMAGE_BASE_NAME:$(cat $REPO_ROOT/version.txt)-nightly-$(date +%Y-%m-%d)"
 
-mkdir -p "$LOG_DIR"
+
 
 export REPO_ROOT
 export IMAGE_BUILD_DIR
@@ -34,3 +37,4 @@ export LOG_FILE
 export IMAGE_BASE_NAME
 export IMAGE_NAME
 export LATEST_TAG
+export SUMMARY_LOG_FILE

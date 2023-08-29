@@ -7,13 +7,36 @@ if [ -z "$IMAGE_BUILD_DIR" ]; then
   exit 1
 fi
 
-# Build the Docker image and pipe output to both the log file and console
-set -x 
+# Initialize command line argument for verbose mode
+verbose=0
 
-docker build --no-cache -t "$IMAGE_NAME" -f "$IMAGE_BUILD_DIR/Dockerfile" $REPO_ROOT 2>&1 | tee -a "$LOG_FILE"
-if [ ${PIPESTATUS[0]} -ne 0 ]; then
-  echo "Docker build failed for $IMAGE_NAME." >&2
-  exit 1
-fi
+# Parse command line arguments
+while getopts "v" option; do
+  case $option in
+        v)
+          verbose=1
+          ;;
+        *)
+          echo "Invalid flag provided."
+          exit 1
+          ;;
+      esac
+done
 
-set +x
+# Function to build Docker image
+build_docker() {
+  echo "Building Docker image $IMAGE_NAME with Dockerfile $IMAGE_BUILD_DIR/Dockerfile"
+  if [ $verbose -eq 1 ]; then
+    docker build --no-cache -t "$IMAGE_NAME" -f "$IMAGE_BUILD_DIR/Dockerfile" $REPO_ROOT 2>&1 | tee -a "$LOG_FILE"
+  else
+    docker build --no-cache -t "$IMAGE_NAME" -f "$IMAGE_BUILD_DIR/Dockerfile" $REPO_ROOT >> "$LOG_FILE" 2>&1
+  fi
+
+  if [ "${PIPESTATUS[0]}" -ne 0 ]; then
+    echo "Docker build failed for $IMAGE_NAME." >&2
+    exit 1
+  fi
+}
+
+# Invoke the function
+build_docker
