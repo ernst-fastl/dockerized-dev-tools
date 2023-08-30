@@ -1,9 +1,10 @@
 {
 	"name": "My Helm Box",
-	"dockerComposeFile": "docker-compose.yml",
-	"service": "devbox",
+	"image": "efastl/devbox-helm:latest",
 	"remoteUser": "user",
-	"workspaceFolder": "/workspace",
+	"mounts": [
+		"source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind"
+	],
 	"customizations": {
 		"vscode": {
 			"extensions": [
