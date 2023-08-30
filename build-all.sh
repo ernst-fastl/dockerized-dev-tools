@@ -132,4 +132,7 @@ fi
 
 printf "\nStage 3: parallel build of larger high-level images \n\n"
 
-build_images_parallel "devbox-java" "devbox-dotnet" "devbox-go" "devbox-ultimate"
+build_images_parallel "devbox-java" "devbox-dotnet" "devbox-go" 
+
+execute_build "devbox-ultimate"
+check_summary_and_exit_on_error
