@@ -1,5 +1,7 @@
 #!/bin/bash
 
+source /etc/profile # required for nvm to work
+
 source /opt/devbox/test_installed_tool_versions.sh
 
 # Call check_version for each tool with its corresponding version command
