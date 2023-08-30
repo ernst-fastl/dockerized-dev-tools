@@ -4,8 +4,8 @@ RUN yes | unminimize
 
 RUN apt update -y && apt upgrade -y && apt autoremove -y 
 
-
-RUN mkdir -p /opt/devbox
+RUN mkdir -p /opt/devbox && \
+  echo 'export PATH=$PATH:/opt/devbox' >> /etc/profile
 
 WORKDIR /opt/devbox
 
