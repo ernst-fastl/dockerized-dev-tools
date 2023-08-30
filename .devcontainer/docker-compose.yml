@@ -1,0 +1,10 @@
+version: '3.8'
+
+services:
+  devbox:
+    image: efastl/devbox-helm
+    container_name: devbox-dockerized-dev-tools
+    # add mount for DooD
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    
