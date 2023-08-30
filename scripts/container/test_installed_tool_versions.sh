@@ -1,5 +1,7 @@
 #!/bin/bash
 
+source /etc/profile # some sdk managers need this
+
 # Initialize failed_commands array
 failed_commands=()
 

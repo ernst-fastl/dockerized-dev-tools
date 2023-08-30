@@ -10,7 +10,7 @@ check_version "Ant" "ant -version"
 check_version "Groovy" "groovy --version"
 check_version "Scala" "scala -version"
 check_version "Kotlin" "kotlin -version"
-check_version "Clojure" "clojure -e '(clojure-version)'"
+check_version "Clojure" "clojure --version"
 check_version "Leiningen" "lein --version"
 check_version "Sbt" "sbt sbtVersion"
 

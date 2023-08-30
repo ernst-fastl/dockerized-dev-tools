@@ -46,3 +46,6 @@ sdk install grails
 sdk install jmeter
 sdk install jmc
 sdk install springboot
+
+# Install Clojure
+./brew_clean_install.sh clojure/tools/clojure
