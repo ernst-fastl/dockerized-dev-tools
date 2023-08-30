@@ -6,17 +6,18 @@ set -e  # Exit on error
 
 ./apt_clean_install.sh wget apt-transport-https software-properties-common
 
-# Import Microsoft repository key
-wget -q https://packages.microsoft.com/keys/microsoft.asc -O- | sudo apt-key add -
+# Download the Microsoft repository GPG keys
+# NOTE unfortunatly microsofts package lists for lunar don't contain powershell so we use 22.04 LTS
+wget -q "https://packages.microsoft.com/config/ubuntu/22.04/packages-microsoft-prod.deb"
 
-# Add Microsoft Package Feed
-sudo add-apt-repository "deb [arch=amd64] https://packages.microsoft.com/ubuntu/$(lsb_release -rs)/prod $(lsb_release -cs) main"
-
-# Update package list again
+# Register the Microsoft repository GPG keys
+sudo dpkg -i packages-microsoft-prod.deb
+# Delete the the Microsoft repository GPG keys file
+rm packages-microsoft-prod.deb
+# Update the list of packages after we added packages.microsoft.com
 sudo apt-get update
-
 # Install PowerShell
-sudo apt-get install -y powershell
+./apt_clean_install.sh powershell
 
 # Install Pester for testing
 pwsh -Command 'Install-Module -Name Pester -Force -SkipPublisherCheck'

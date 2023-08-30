@@ -67,8 +67,6 @@ for arg in "$@"; do
     fi
 done
 
-echo -e "\n--- Updating APT package list: ---\n"
-apt update -yq
 
 # Log the package list to the console
 echo -e "\n--- Installing APT packages: ---\n"
@@ -82,6 +80,7 @@ export DEBIAN_FRONTEND=noninteractive
 if [ "$SKIP_UPDATE" -eq 0 ]; then
     echo "--- Updating APT ---"
     apt update -yq
+    apt upgrade -yq
 fi
 
 # Installation
