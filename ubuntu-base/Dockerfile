@@ -9,6 +9,11 @@ RUN mkdir -p /opt/devbox && \
 
 WORKDIR /opt/devbox
 
+COPY /ubuntu-base/custom-profiled-loader.sh /etc/profile.d/custom-profiled-loader.sh
+RUN chown root:root /etc/profile.d/custom-profiled-loader.sh
+RUN chmod 755 /etc/profile.d/custom-profiled-loader.sh
+
+
 COPY /scripts/container/* .
 RUN chmod +x *.sh
 
