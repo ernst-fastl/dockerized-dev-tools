@@ -19,6 +19,9 @@ curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh -o
 # Set NONINTERACTIVE environment variable
 export NONINTERACTIVE=1
 
+# bugfix
+export HOMEBREW_NO_INSTALL_FROM_API=1
+
 # Run Homebrew installation script
 /bin/bash "$INSTALL_SCRIPT"
 
