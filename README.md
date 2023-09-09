@@ -2,7 +2,7 @@
 
 Ubuntu, DinD, DooD &amp; multi programming language dev-container build scripts.
 
-This repository hosts a collection of scripts and Dockerfiles designed to streamline development and deployment processes. It includes a base Ubuntu rolling image with essential command-line tools, Docker-in-Docker (DinD), Docker-outside-of-Docker (DooD), and specialized images tailored for development containers.
+This repository hosts a collection of scripts and Dockerfiles designed to streamline development and deployment processes.
 
 ## Table of Contents
 
