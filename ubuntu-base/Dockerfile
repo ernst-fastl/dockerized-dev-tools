@@ -30,8 +30,8 @@ usermod -c "Main Container User" user && \
 echo "user ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 
 # vscode shells typically don't load /etc/profile, so we need to load it manually
-RUN echo 'if [ -z "$CUSTOM_PROFILED_LOADER_RAN" ]; then\n  source /etc/profile\nfi' >> /home/user/.bashrc && \
-echo 'if [ -z "$CUSTOM_PROFILED_LOADER_RAN" ]; then\n  source /etc/profile\nfi' >> /root/.bashrc
+RUN sed -i '1isource /etc/profile' /home/user/.bashrc && \
+sed -i '1isource /etc/profile' /root/.bashrc
 
 RUN ./install_homebrew.sh
 
