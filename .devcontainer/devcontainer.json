@@ -1,7 +1,19 @@
 {
-	"name": "My Helm Box",
-	"image": "efastl/devbox-helm:latest",
-	"remoteUser": "user",
+	"name": "Docker outside of Docker",
+	"image": "mcr.microsoft.com/devcontainers/base:bullseye",
+
+	"features": {
+		"ghcr.io/devcontainers/features/docker-outside-of-docker:1": {
+			"version": "latest",
+			"enableNonRootDocker": "true",
+			"moby": "true"
+		}
+	},
+
+	"remoteEnv": {
+		"LOCAL_WORKSPACE_FOLDER": "${localWorkspaceFolder}"
+	},
+
 	"mounts": [
 		"source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind"
 	],
@@ -9,15 +21,8 @@
 		"vscode": {
 			"extensions": [
 				"ms-azuretools.vscode-docker",
-				"GitHub.copilot",
-				"GitHub.copilot-chat",
-				"Tim-Koehler.helm-intellisense",
-				"lunuan.kubernetes-templates",
 				"DavidAnson.vscode-markdownlint",
-				"raynigon.nginx-formatter",
 				"esbenp.prettier-vscode",
-				"mechatroner.rainbow-csv",
-				"redhat.vscode-yaml",
 				"timonwong.shellcheck",
 				"foxundermoon.shell-format"
 			]

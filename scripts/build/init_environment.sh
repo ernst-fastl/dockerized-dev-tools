@@ -23,12 +23,10 @@ if [[ "$IMAGE_BUILD_DIR" == "$REPO_ROOT" || "$IMAGE_BUILD_DIR" != "$REPO_ROOT"* 
 fi
 
 IMAGE_BASE_NAME=$(basename $IMAGE_BUILD_DIR)
-LATEST_TAG="efastl/$IMAGE_BASE_NAME:latest"
+LATEST_TAG="${DOCKER_USERNAME:-dockerized-dev-tools}/$IMAGE_BASE_NAME:latest"
 
 LOG_FILE="$LOG_DIR/$(date +%Y-%m-%d)-$IMAGE_BASE_NAME.log"
-IMAGE_NAME="efastl/$IMAGE_BASE_NAME:$(cat $REPO_ROOT/version.txt)-nightly-$(date +%Y-%m-%d)"
-
-
+IMAGE_NAME="${DOCKER_USERNAME:-dockerized-dev-tools}/$IMAGE_BASE_NAME:$(cat $REPO_ROOT/version.txt)-nightly-$(date +%Y-%m-%d)"
 
 export REPO_ROOT
 export IMAGE_BUILD_DIR

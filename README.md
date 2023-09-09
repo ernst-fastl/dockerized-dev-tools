@@ -49,11 +49,21 @@ This guide will help you to get started with building and using the development 
 
 ### Prerequisites
 
-Ensure you have the following installed:
+Ensure you have one of the following setups ready:
+
+#### Option 1: Local Setup
+
+Have the following installed on your system:
 
 - Docker
 - Git
 - Bash
+
+#### Option 2: Docker Out-of-Docker (DooD) DevContainer Setup
+
+Leverage the provided Docker out-of-Docker (DooD) DevContainer configuration to set up your environment. Before proceeding, ensure that DooD is possible on your system.
+
+For Docker Desktop on Windows, it is recommended to use the WSL 2 backend and you might need to enable the "Expose daemon on tcp://localhost:2375" option, available in the Docker Desktop settings.
 
 ### Clone the Repository
 
